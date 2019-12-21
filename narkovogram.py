@@ -1,3 +1,5 @@
+import custom_errors
+
 class Narkovogram(dict):
     """This class creates a dictionary representation of a histogram used
         to generate markov chains."""
@@ -46,6 +48,9 @@ class Narkovogram(dict):
                 self[key] = appended_sub_dict
 
     def frequency(self, group):
+        """Given a key 'group', return the frequency of that group as a 
+            whole. In other words, returns the sum of the key-value counts
+            for a given key."""
         histogram = self[group]
         frequency = 0
         for _, value in histogram.items():
