@@ -3,7 +3,7 @@ import narkovogram
 class Narkovogram_for_words(narkovogram.Narkovogram):
     """This class will specifically be used for generating fake words."""
 
-    def __init__(self, order=3, word_list=None):
+    def __init__(self, word_list=None, order=3):
         super(Narkovogram_for_words, self).__init__(order)
 
         self.words_so_far = []
@@ -11,6 +11,7 @@ class Narkovogram_for_words(narkovogram.Narkovogram):
         if word_list is not None:
             for word in word_list:
                 self.add_word(word)
+                self.words_so_far.append(word)
 
     def add_word(self, word):
         """Deconstructs a real word and adds its components to the 
@@ -19,11 +20,10 @@ class Narkovogram_for_words(narkovogram.Narkovogram):
         # Constructs start and stop tokens appropriate for order of 
         #   Narkovogram    
         start = ""
-        end = ""
+        end = ")"
 
         for _ in range(self.order):
             start   += "("
-            end     += ")"
         
         word = start + word + end
 
@@ -34,4 +34,15 @@ class Narkovogram_for_words(narkovogram.Narkovogram):
                 value = word[index + self.order]
                 self.add_count(key, value)
 
+def print_narkovogram(nark):
+    print('word list: {}'.format(nark.words_so_far))
+    print('narkovogram: {}'.format(nark))
+    print('{} tokens, {} types'.format(nark.tokens, nark.types))
+
+def tests():
+    words = ["cat", "argument", "still", "camp"]
+    print_narkovogram(Narkovogram_for_words(words))
+
+if __name__ == "__main__":
+    tests()    
     
