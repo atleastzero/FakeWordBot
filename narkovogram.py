@@ -1,4 +1,5 @@
 import custom_errors
+import random
 
 class Narkovogram(dict):
     """This class creates a dictionary representation of a histogram used
@@ -76,6 +77,6 @@ class Narkovogram(dict):
                     return item
             if last_item == None:
                 raise custom_errors.LastItemError
-            return last_word
+            return last_item
         except:
             raise custom_errors.NotEnoughContentError

@@ -23,7 +23,7 @@ class Narkovogram_for_words(narkovogram.Narkovogram):
         end = ")"
 
         for _ in range(self.order):
-            start   += "("
+            start += "("
         
         word = start + word + end
 
@@ -34,14 +34,36 @@ class Narkovogram_for_words(narkovogram.Narkovogram):
                 value = word[index + self.order]
                 self.add_count(key, value)
 
+    def random_walk(self):
+        old_letters = ""
+        produced_word = ""
+
+        for _ in range(self.order):
+            old_letters += "("
+        
+        newest_letter = old_letters[self.order - 1]
+
+        while newest_letter != ")":
+            newest_letter = self.sample_next(old_letters)
+            produced_word += newest_letter
+            old_letters = old_letters[1:] + newest_letter
+
+        return produced_word[:len(produced_word)-1]
+
+
 def print_narkovogram(nark):
     print('word list: {}'.format(nark.words_so_far))
     print('narkovogram: {}'.format(nark))
     print('{} tokens, {} types'.format(nark.tokens, nark.types))
 
 def tests():
-    words = ["cat", "argument", "still", "camp"]
-    print_narkovogram(Narkovogram_for_words(words))
+    f = open("/usr/share/dict/words", "r")
+    contents = f.read()
+    words_list = contents.split("\n")
+    f.close()
+    test_nark = Narkovogram_for_words(words_list)
+    print_narkovogram(test_nark)
+    print(test_nark.random_walk())
 
 if __name__ == "__main__":
     tests()    
