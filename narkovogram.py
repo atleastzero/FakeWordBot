@@ -44,3 +44,10 @@ class Narkovogram(dict):
                 for inner_key, inner_value in self[key].items():
                     appended_sub_dict[inner_key] = inner_value
                 self[key] = appended_sub_dict
+
+    def frequency(self, group):
+        histogram = self[group]
+        frequency = 0
+        for _, value in histogram.items():
+            frequency += value
+        return value
