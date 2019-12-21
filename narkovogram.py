@@ -56,3 +56,26 @@ class Narkovogram(dict):
         for _, value in histogram.items():
             frequency += value
         return value
+
+    def sample_next(self, recent):
+        """Given a recent addition to the random walk, randomly sample the 
+            next addition."""
+        try:
+            histogram = self[recent]
+
+            # 'Targets' an index in the range of 0 to frequency
+            target = random.randrange(self.frequency(recent))
+            # Dart 'searches for' target by iterating through values 
+            dart = 0
+            last_item = None
+            for item, pair_count in histogram.items():
+                last_item = item
+                if dart <= target:  # if dart hasn't 'found' target
+                    dart += pair_count
+                else:               # if dart has 'found' target
+                    return item
+            if last_item == None:
+                raise custom_errors.LastItemError
+            return last_word
+        except:
+            raise custom_errors.NotEnoughContentError
